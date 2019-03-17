@@ -1,0 +1,21 @@
+{
+  "name": "toucan-react",
+  "version": "0.0.1",
+  "description": "React wrapper for the Toucan AI client",
+  "main": "dist/toucan-react.min.js",
+  "scripts": {
+    "build": "rollup -c -o dist/toucan-react.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vishnu Menon",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.8.4",
+    "rollup": "^1.6.0",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-uglify": "^6.0.2"
+  }
+}
