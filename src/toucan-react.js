@@ -1,29 +1,55 @@
 import React, { Component } from "react";
 
-function loadScript(src) {
+function waitForToucan(resolve) {
+  if (typeof ToucanAI !== "undefined") {
+    resolve();
+  }
+  setTimeout(() => waitForToucan(resolve), 200);
+}
+
+function loadScript(src, alreadyLoaded) {
   return new Promise(function(resolve, reject) {
-    var tag = document.createElement("script");
-    tag.async = false;
-    tag.src = src;
-    tag.addEventListener("load", resolve);
-    tag.addEventListener("error", reject);
-    document.getElementsByTagName("body")[0].appendChild(tag);
+    if (alreadyLoaded) {
+      waitForToucan(resolve);
+    } else {
+      var tag = document.createElement("script");
+      tag.async = false;
+      tag.src = src;
+      tag.addEventListener("load", resolve);
+      tag.addEventListener("error", reject);
+      document.getElementsByTagName("body")[0].appendChild(tag);
+    }
   });
 }
 
 class ToucanAIChat extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    this.toucanInstance;
   }
   componentDidMount() {
-    loadScript("https://dev.toucanai.com:91/widget.js").then(() => {
-      this.toucanInstance = new ToucanAI(this.props);
+    loadScript(
+      "https://dev.toucanai.com:91/widget.js",
+      this.props.alreadyLoaded
+    ).then(() => {
+      let options = Object.assign({}, this.props);
+      if (options.embeddedMode && !options.parent) {
+        options.parent = this.container;
+      }
+      console.log("Init-ing toucan");
+      console.log(options);
+      new ToucanAI(options);
     });
   }
   render() {
-    return <div className="toucan-ai-chat" />;
+    if (this.props.embeddedMode && !this.props.parent) {
+      return (
+        <div
+          style={{ width: "100%", height: "100%" }}
+          ref={c => (this.container = c)}
+        />
+      );
+    }
+    return null;
   }
 }
 
