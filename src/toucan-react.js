@@ -25,6 +25,7 @@ function loadScript(src, alreadyLoaded) {
 class ToucanAIChat extends Component {
   constructor(props) {
     super(props);
+    this.toucanInstance;
   }
   componentDidMount() {
     loadScript(
@@ -35,11 +36,22 @@ class ToucanAIChat extends Component {
       if (options.embeddedMode && !options.parent) {
         options.parent = this.container;
       }
-      console.log("Init-ing toucan");
-      console.log(options);
+      options.onReady = t => {
+        this.toucanInstance = t;
+        if (this.props.onReady) {
+          this.props.onReady();
+        }
+      };
       new ToucanAI(options);
     });
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.loadConvo !== prevProps.loadConvo && this.toucanInstance) {
+      this.toucanInstance.changeConversation(this.props.loadConvo);
+    }
+  }
+
   render() {
     if (this.props.embeddedMode && !this.props.parent) {
       return (
