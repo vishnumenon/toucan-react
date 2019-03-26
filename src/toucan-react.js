@@ -25,7 +25,7 @@ function loadScript(src, alreadyLoaded) {
 class ToucanAIChat extends Component {
   constructor(props) {
     super(props);
-    this.toucanInstance;
+    this.toucanInstance = null;
   }
   componentDidMount() {
     loadScript(
@@ -39,7 +39,7 @@ class ToucanAIChat extends Component {
       options.onReady = t => {
         this.toucanInstance = t;
         if (this.props.onReady) {
-          this.props.onReady();
+          this.props.onReady(t);
         }
       };
       new ToucanAI(options);
