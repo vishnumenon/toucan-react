@@ -28,10 +28,9 @@ class ToucanAIChat extends Component {
     this.toucanInstance = null;
   }
   componentDidMount() {
-    loadScript(
-      "https://dev.toucanai.com:91/widget.js",
-      this.props.alreadyLoaded
-    ).then(() => {
+    let widgetUrl =
+      (this.props.resourceRoot || "https://dev.toucanai.com:91") + "/widget.js";
+    loadScript(widgetUrl, this.props.alreadyLoaded).then(() => {
       let options = Object.assign({}, this.props);
       if (options.embeddedMode && !options.parent) {
         options.parent = this.container;

@@ -1,6 +1,6 @@
 {
   "name": "toucan-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React wrapper for the Toucan AI client",
   "main": "dist/toucan-react.min.js",
   "scripts": {
