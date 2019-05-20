@@ -14,7 +14,7 @@ function loadScript(src, alreadyLoaded) {
     } else {
       var tag = document.createElement("script");
       tag.async = false;
-      tag.src = src;
+      tag.src = src + "?v=" + (new Date().getTime()); 
       tag.addEventListener("load", resolve);
       tag.addEventListener("error", reject);
       document.getElementsByTagName("body")[0].appendChild(tag);
