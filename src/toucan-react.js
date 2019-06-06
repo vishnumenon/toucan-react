@@ -14,7 +14,7 @@ function loadScript(src, alreadyLoaded) {
     } else {
       var tag = document.createElement("script");
       tag.async = false;
-      tag.src = src + "?v=" + (new Date().getTime()); 
+      tag.src = src + "?v=" + new Date().getTime();
       tag.addEventListener("load", resolve);
       tag.addEventListener("error", reject);
       document.getElementsByTagName("body")[0].appendChild(tag);
@@ -48,6 +48,12 @@ class ToucanAIChat extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.loadConvo !== prevProps.loadConvo && this.toucanInstance) {
       this.toucanInstance.changeConversation(this.props.loadConvo);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.toucanInstance) {
+      this.toucanInstance.destroy();
     }
   }
 
